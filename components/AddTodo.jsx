@@ -12,7 +12,8 @@ const AddTodo = () => {
 
   const { isLoggedIn, user } = useAuth();
 
-  const handleTodoCreate = async () => {
+  const handleTodoCreate = async (e) => {
+    e.preventDefault()
     if (!isLoggedIn) {
       toast.error('Debe iniciar sesión', {
         position: "bottom-right",
@@ -53,10 +54,10 @@ const AddTodo = () => {
   };
 
   return (
-    <div className="w-40 mx-auto mt-36">
-      <div className="flex flex-col space-y-4">
+    <div className="w-full flex justify-center mt-36 mb-10">
+      <form className=" max-w-md w-full px-5 flex flex-col gap-3" onSubmit={handleTodoCreate}>
         <input
-          className="p-2 border border-gray-300"
+          className="p-2 rounded-2xl border border-gray-300 w-full focus:ring-teal-200 focus:ring-4 focus:border-teal-500 focus:outline-none"
           type="text"
           placeholder="Título"
           value={title}
@@ -64,14 +65,14 @@ const AddTodo = () => {
         />
 
         <textarea
-          className="p-2 border border-gray-300 h-40 w-40 resize-none"
+          className="p-2 rounded-2xl border border-gray-300 h-40 w-full resize-none focus:ring-teal-200 focus:ring-4 focus:border-teal-500 focus:outline-none"
           placeholder="Descripción"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
 
         <select
-          className="p-2 border border-gray-300"
+          className="p-2 rounded-2xl border border-gray-300 w-full focus:ring-teal-200 focus:ring-4 focus:border-teal-500 focus:outline-none"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
@@ -84,13 +85,13 @@ const AddTodo = () => {
         </select>
 
         <button
-          className={`p-2 bg-teal-500 text-white rounded ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-          onClick={() => handleTodoCreate()}
+          className={`p-2 bg-teal-500 text-white w-full transition-colors cursor-pointer hover:bg-teal-600 rounded-2xl ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+          type="submit"
           disabled={title.length < 1 || description.length < 1 || isLoading}
         >
           Añadir
         </button>
-      </div>
+      </form>
     </div>
   );
 };

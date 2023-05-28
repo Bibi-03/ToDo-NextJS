@@ -1,6 +1,6 @@
 import React from "react";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { FaGoogle, FaMoon, FaSun } from "react-icons/fa";
+import { FaGoogle} from "react-icons/fa";
 import { auth } from "../firebase";
 import useAuth from "../hooks/useAuth";
 
@@ -31,16 +31,16 @@ const Auth = () => {
   };
 
   return (
-    <div className="fixed top-5 right-5">
+    <div className="fixed top-5 right-5 ">
       {isLoggedIn ? (
-        <>
-          <p className="text-green-500">{user.email}</p>
-          <button className="bg-red-500 rounded text-white px-4 py-2" onClick={() => auth.signOut()}>
+        <div className="">
+          <p className="text-slate-600 font-semibold mb-2">{user.email}</p>
+          <button className="flex ml-auto bg-red-500 rounded-2xl text-white px-4 py-2" onClick={() => auth.signOut()}>
             Cerrar sesión
           </button>
-        </>
+        </div>
       ) : (
-        <button className="flex items-center bg-red-500 text-white rounded px-4 py-2" onClick={() => handleAuth()}>
+        <button className="flex items-center bg-red-500 text-white rounded-2xl px-4 py-2" onClick={() => handleAuth()}>
           <FaGoogle className="mr-2" />
           Loguearse con Google
         </button>

@@ -6,10 +6,11 @@ import { FaToggleOff, FaToggleOn, FaTrash } from "react-icons/fa";
 import { deleteTodo, toggleTodoStatus } from "../api/todo";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ItemList from "./ItemList";
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
-  
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [todoIdToDelete, setTodoIdToDelete] = useState(null);
 
@@ -59,9 +60,9 @@ const TodoList = () => {
   const handleToggle = async (id, status) => {
     const newStatus = status == "Completado" ? "Pendiente" : "Completado";
     await toggleTodoStatus({ docId: id, status: newStatus });
-    newStatus == "Completado" ? "Marcar completado" : "Marcar pendiente"
-    if (newStatus == "Completado"){
-      toast.success('Marcar completado', {
+    newStatus == "Completado" ? "Marcar completado" : "Marcar pendiente";
+    if (newStatus == "Completado") {
+      toast.success("Marcar completado", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -70,9 +71,9 @@ const TodoList = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
-    }else{
-      toast.warn('Marcar pendiente', {
+      });
+    } else {
+      toast.warn("Marcar pendiente", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -81,49 +82,35 @@ const TodoList = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
+      });
     }
   };
 
   return (
     <div className="mt-5">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-5 py-10 bg-slate-100">
         {todos &&
-          todos.map((todo) => (
-            <div
-              key={todo.id}
-              className="p-3 shadow-2xl transition duration-200 hover:shadow-sm"
-            >
-              <h3 className="text-xl">
-                {todo.title}{" "}
-                <button
-                  className="float-right text-red-500 bg-transparent transition duration-200 hover:bg-transparent hover:scale-120 flex items-center"
-                  onClick={() => handleShowDeleteModal(todo.id)}
-                >
-                  <FaTrash />
-                </button>
-                <button
-                  className={`float-right ${todo.status == "pending" ? "text-gray-500" : "text-green-500"} bg-transparent transition duration-200 hover:bg-transparent hover:scale-120 flex items-center`}
-                  onClick={() => handleToggle(todo.id, todo.status)}
-                >
-                  {todo.status == "pending" ? <FaToggleOff className="mr-1"/> : <FaToggleOn className="mr-1"/>}
-                </button>
-                <span className={`float-right p-2 rounded-md bg-gray-200 text-sm text-black mr-2 ${todo.status == "pending" ? "bg-yellow-500" : "bg-green-500"}`}>
-                  {todo.status}
-                </span>
-              </h3>
-              <p>{todo.description}</p>
-            </div>
-          ))}
+          todos.map((todo) => {
+            return (
+              <ItemList
+                key={todo.id}
+                todo={todo}
+                handleToggle={handleToggle}
+                handleShowDeleteModal={handleShowDeleteModal}
+              />
+            );
+          })}
       </div>
       {showDeleteModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="bg-white w-96 p-6 rounded shadow-lg">
             <h3 className="text-xl mb-4">Confirmar eliminación</h3>
-            <p className="mb-4">¿Estás seguro de que deseas eliminar esta tarea?</p>
+            <p className="mb-4">
+              ¿Estás seguro de que deseas eliminar esta tarea?
+            </p>
             <div className="flex justify-end">
               <button
-                className="mr-2 bg-green-500 text-white px-4 py-2 rounded"
+                className="mr-2 bg-teal-500 text-white px-4 py-2 rounded"
                 onClick={handleConfirmDelete}
               >
                 Aceptar
